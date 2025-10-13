@@ -466,20 +466,34 @@ $scripts = @(
 		Set-ItemProperty -LiteralPath 'Registry::HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon' -Name 'AutoLogonCount' -Type 'DWord' -Force -Value 0;
 	};
 	{
+		# Remove Admin account, keep only User
+		$adminExists = Get-LocalUser -Name "Admin" -ErrorAction SilentlyContinue;
+		if ($adminExists) {
+			Remove-LocalUser -Name "Admin" -ErrorAction SilentlyContinue;
+		}
+	};
+	{
+		# Apply taskbar settings for current user
+		Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "TaskbarAl" -Value 0 -Type DWord -Force;
+		Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "ShowTaskViewButton" -Value 0 -Type DWord -Force;
+		Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Search" -Name "SearchboxTaskbarMode" -Value 0 -Type DWord -Force;
+		Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "TaskbarDa" -Value 0 -Type DWord -Force;
+	};
+	{
 		$chromeInstaller = "$env:TEMP\ChromeSetup.exe";
-		Invoke-WebRequest -Uri "https://dl.google.com/chrome/install/latest/chrome_installer.exe" -OutFile $chromeInstaller;
+		Invoke-WebRequest -Uri "https://dl.google.com/chrome/install/latest/chrome_installer.exe" -OutFile $chromeInstaller -UseBasicParsing;
 		Start-Process -FilePath $chromeInstaller -ArgumentList "/silent", "/install" -Wait;
 		Remove-Item $chromeInstaller -Force -ErrorAction 'SilentlyContinue';
 	};
 	{
 		$adobeInstaller = "$env:TEMP\AdobeReaderSetup.exe";
-		Invoke-WebRequest -Uri "https://ardownload2.adobe.com/pub/adobe/reader/win/AcrobatDC/2300820555/AcroRdrDC2300820555_en_US.exe" -OutFile $adobeInstaller;
+		Invoke-WebRequest -Uri "https://ardownload2.adobe.com/pub/adobe/reader/win/AcrobatDC/2300820555/AcroRdrDC2300820555_en_US.exe" -OutFile $adobeInstaller -UseBasicParsing;
 		Start-Process -FilePath $adobeInstaller -ArgumentList "/sAll", "/rs", "/msi", "EULA_ACCEPT=YES" -Wait;
 		Remove-Item $adobeInstaller -Force -ErrorAction 'SilentlyContinue';
 	};
 	{
 		$vlcInstaller = "$env:TEMP\vlc-installer.exe";
-		Invoke-WebRequest -Uri "https://get.videolan.org/vlc/last/win64/vlc-3.0.21-win64.exe" -OutFile $vlcInstaller;
+		Invoke-WebRequest -Uri "https://get.videolan.org/vlc/last/win64/vlc-3.0.21-win64.exe" -OutFile $vlcInstaller -UseBasicParsing;
 		Start-Process -FilePath $vlcInstaller -ArgumentList "/L=1033", "/S" -Wait;
 		Remove-Item $vlcInstaller -Force -ErrorAction 'SilentlyContinue';
 	};
@@ -492,6 +506,10 @@ $scripts = @(
 		  'C:\Windows\Panther\unattend-original.xml';
 		  'C:\Windows\Setup\Scripts\Wifi.xml';
 		) -Force -ErrorAction 'SilentlyContinue' -Verbose;
+	};
+	{
+		# Restart Explorer to apply taskbar changes
+		Stop-Process -Name explorer -Force -ErrorAction SilentlyContinue;
 	};
 );
 
