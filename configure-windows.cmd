@@ -67,9 +67,6 @@ echo.
 echo This window will close in 10 seconds...
 timeout /t 10 /nobreak >nul
 
-:: Remove RunOnce registry entry
-reg delete "HKLM\Software\Microsoft\Windows\CurrentVersion\RunOnce" /v "ConfigureWindows" /f >nul 2>&1
-
-:: Delete this script from startup folder and itself
-del "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Startup\configure-windows.cmd" >nul 2>&1
+:: Delete this script
+del "C:\Windows\Setup\Scripts\configure-windows.cmd" >nul 2>&1
 (goto) 2>nul & del "%~f0"
