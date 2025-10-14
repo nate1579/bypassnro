@@ -14,10 +14,9 @@ echo.
 :: Wait a few seconds for Windows to fully load
 timeout /t 5 /nobreak >nul
 
-:: Remove Admin account if exists, ensure User is Administrator
+:: Rename Admin account to User if it exists
 echo [1/6] Configuring user accounts...
-net user Admin /delete 2>nul
-net user User "" /add 2>nul
+wmic useraccount where name='Admin' rename User 2>nul
 net localgroup Administrators User /add 2>nul
 
 :: Configure taskbar and start menu for all users

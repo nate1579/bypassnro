@@ -466,10 +466,11 @@ $scripts = @(
 		Set-ItemProperty -LiteralPath 'Registry::HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon' -Name 'AutoLogonCount' -Type 'DWord' -Force -Value 0;
 	};
 	{
-		# Remove Admin account, keep only User
+		# Rename Admin account to User if it exists
 		$adminExists = Get-LocalUser -Name "Admin" -ErrorAction SilentlyContinue;
 		if ($adminExists) {
-			Remove-LocalUser -Name "Admin" -ErrorAction SilentlyContinue;
+			Rename-LocalUser -Name "Admin" -NewName "User" -ErrorAction SilentlyContinue;
+			Add-LocalGroupMember -Group "Administrators" -Member "User" -ErrorAction SilentlyContinue;
 		}
 	};
 	{
