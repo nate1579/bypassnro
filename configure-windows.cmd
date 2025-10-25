@@ -85,8 +85,8 @@ echo.
 echo [5/8] Removing OneDrive...
 
 :: Remove scheduled tasks
-schtdel /Query | findstr /C:"DevHomeUpdate" >nul 2>&1 && schtasks /Delete /TN "DevHomeUpdate" /F >nul 2>&1
-schtdel /Query | findstr /C:"OutlookUpdate" >nul 2>&1 && schtasks /Delete /TN "OutlookUpdate" /F >nul 2>&1
+schtasks /Query | findstr /C:"DevHomeUpdate" >nul 2>&1 && schtasks /Delete /TN "DevHomeUpdate" /F >nul 2>&1
+schtasks /Query | findstr /C:"OutlookUpdate" >nul 2>&1 && schtasks /Delete /TN "OutlookUpdate" /F >nul 2>&1
 
 :: Remove OneDrive files
 del /F /Q "C:\Users\Default\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\OneDrive.lnk" >nul 2>&1
