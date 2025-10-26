@@ -179,10 +179,7 @@ del /F /Q "%PUBLIC%\Desktop\Microsoft Edge.lnk" >nul 2>&1
 del /F /Q "C:\Users\Default\Desktop\Microsoft Edge.lnk" >nul 2>&1
 
 :: Disable Windows notifications
-reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\PushNotifications" /v ToastEnabled /t REG_DWORD /d 0 /f >nul 2>&1
-reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Notifications\Settings" /v NOC_GLOBAL_SETTING_ALLOW_NOTIFICATION_SOUND /t REG_DWORD /d 0 /f >nul 2>&1
-reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Notifications\Settings" /v NOC_GLOBAL_SETTING_ALLOW_CRITICAL_TOASTS_ABOVE_LOCK /t REG_DWORD /d 0 /f >nul 2>&1
-reg add "HKCU\Software\Policies\Microsoft\Windows\Explorer" /v DisableNotificationCenter /t REG_DWORD /d 1 /f >nul 2>&1
+reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\PushNotifications" /v ToastEnabled /t REG_DWORD /d 0 /f
 
 :: Configure Start menu folders
 powershell -NoProfile -Command "Set-ItemProperty -Path 'Registry::HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Start' -Name 'VisiblePlaces' -Value ([convert]::FromBase64String('ztU0LVr6Q0WC8iLm6vd3PC+zZ+PeiVVDv85h83sYqTe8JIoUDNaJQqCAbtm7okiCIAYLsFF/MkyqHjTMVH9zFUSBdf4NCK5Ci9o07Ze2Y5RKsL10SvloT4vWQ5gHHai8oAc/OArogEywWobbhF28TYYIc1KqUUNCn3sndlhGWdTFpbNChn30QoCkk/rKeoi1')) -Type 'Binary' -ErrorAction SilentlyContinue" >nul 2>&1
@@ -302,6 +299,26 @@ powershell -NoProfile -Command "try { $chromePath = 'C:\Program Files\Google\Chr
 
 :: Alternative method for Windows 11 - Create pinned items via registry
 powershell -NoProfile -Command "try { if ([System.Environment]::OSVersion.Version.Build -ge 22000) { $pinPath = \"$env:APPDATA\Microsoft\Internet Explorer\Quick Launch\User Pinned\TaskBar\"; if (-not (Test-Path $pinPath)) { New-Item -Path $pinPath -ItemType Directory -Force | Out-Null }; $pins = @(@{Name='File Explorer';Target='C:\Windows\explorer.exe'}, @{Name='Google Chrome';Target='C:\Program Files\Google\Chrome\Application\chrome.exe'}); foreach ($pin in $pins) { if (Test-Path $pin.Target) { $shortcut = Join-Path $pinPath \"$($pin.Name).lnk\"; $WshShell = New-Object -ComObject WScript.Shell; $Shortcut = $WshShell.CreateShortcut($shortcut); $Shortcut.TargetPath = $pin.Target; $Shortcut.Save() } } } } catch { }" 2>nul
+
+echo Pinning Google Chrome and File Explorer to taskbar...
+
+REM Pin Google Chrome
+echo.
+echo Pinning Google Chrome...
+powershell -command "$shell = New-Object -ComObject Shell.Application; $folder = $shell.Namespace('C:\Program Files\Google\Chrome\Application'); $item = $folder.ParseName('chrome.exe'); $item.InvokeVerb('taskbarpin')"
+
+if errorlevel 1 (
+    echo Trying alternate Chrome location...
+    powershell -command "$shell = New-Object -ComObject Shell.Application; $folder = $shell.Namespace('C:\Program Files (x86)\Google\Chrome\Application'); $item = $folder.ParseName('chrome.exe'); $item.InvokeVerb('taskbarpin')"
+)
+
+REM Pin File Explorer
+echo.
+echo Pinning File Explorer...
+powershell -command "$shell = New-Object -ComObject Shell.Application; $folder = $shell.Namespace('C:\Windows'); $item = $folder.ParseName('explorer.exe'); $item.InvokeVerb('taskbarpin')"
+
+echo.
+echo Done! Chrome and File Explorer should now be pinned to your taskbar.
 
 echo Done.
 echo.
