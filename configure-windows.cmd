@@ -18,7 +18,7 @@ echo.
 :: SYSTEM CONFIGURATION
 :: ============================================
 
-echo [1/8] Configuring system settings...
+echo [1/9] Configuring system settings...
 
 :: Allow upgrades with unsupported TPM or CPU
 reg add "HKLM\SYSTEM\Setup\MoSetup" /v AllowUpgradesWithUnsupportedTPMOrCPU /t REG_DWORD /d 1 /f >nul 2>&1
@@ -42,7 +42,7 @@ echo.
 :: REMOVE BLOATWARE APPS
 :: ============================================
 
-echo [2/8] Removing bloatware apps (this may take several minutes)...
+echo [2/9] Removing bloatware apps (this may take several minutes)...
 
 :: Remove provisioned packages
 powershell -NoProfile -Command "$packages = @('Microsoft.Microsoft3DViewer','Microsoft.BingSearch','Clipchamp.Clipchamp','Microsoft.Copilot','Microsoft.549981C3F5F10','Microsoft.Windows.DevHome','MicrosoftCorporationII.MicrosoftFamily','Microsoft.WindowsFeedbackHub','Microsoft.Edge.GameAssist','Microsoft.GetHelp','Microsoft.Getstarted','microsoft.windowscommunicationsapps','Microsoft.WindowsMaps','Microsoft.MixedReality.Portal','Microsoft.BingNews','Microsoft.MicrosoftOfficeHub','Microsoft.Office.OneNote','Microsoft.OutlookForWindows','Microsoft.Paint','Microsoft.MSPaint','Microsoft.People','Microsoft.Windows.Photos','Microsoft.PowerAutomateDesktop','MicrosoftCorporationII.QuickAssist','Microsoft.SkypeApp','Microsoft.MicrosoftSolitaireCollection','Microsoft.MicrosoftStickyNotes','MicrosoftTeams','MSTeams','Microsoft.Todos','Microsoft.Wallet','Microsoft.Xbox.TCUI','Microsoft.XboxApp','Microsoft.XboxGameOverlay','Microsoft.XboxGamingOverlay','Microsoft.XboxIdentityProvider','Microsoft.XboxSpeechToTextOverlay','Microsoft.GamingApp','Microsoft.YourPhone','Microsoft.ZuneVideo'); foreach($pkg in $packages){Get-AppxProvisionedPackage -Online | Where-Object {$_.DisplayName -eq $pkg} | Remove-AppxProvisionedPackage -AllUsers -Online -ErrorAction SilentlyContinue}" >nul 2>&1
@@ -57,7 +57,7 @@ echo.
 :: REMOVE CAPABILITIES
 :: ============================================
 
-echo [3/8] Removing Windows capabilities...
+echo [3/9] Removing Windows capabilities...
 
 powershell -NoProfile -Command "$caps = @('Language.Handwriting~~~','Browser.InternetExplorer~~~','MathRecognizer~~~','OneCoreUAP.OneSync~~~','OpenSSH.Client~~~','Microsoft.Windows.MSPaint~~~','Microsoft.Windows.PowerShell.ISE~~~','App.Support.QuickAssist~~~','Language.Speech~~~','Language.TextToSpeech~~~','App.StepsRecorder~~~','Hello.Face.18967~~~','Hello.Face.Migration.18967~~~','Hello.Face.20134~~~','Media.WindowsMediaPlayer~~~'); foreach($cap in $caps){Get-WindowsCapability -Online | Where-Object {$_.Name -like \"*$cap*\" -and $_.State -ne 'NotPresent'} | Remove-WindowsCapability -Online -ErrorAction SilentlyContinue}" >nul 2>&1
 
@@ -68,12 +68,12 @@ echo.
 :: REMOVE FEATURES
 :: ============================================
 
-echo [4/8] Removing Windows features...
+echo [4/9] Removing Windows features...
 
-powershell -NoProfile -Command "Disable-WindowsOptionalFeature -Online -FeatureName 'MediaPlayback' -Remove -NoRestart -ErrorAction SilentlyContinue" >nul 2>&1
-powershell -NoProfile -Command "Disable-WindowsOptionalFeature -Online -FeatureName 'MicrosoftWindowsPowerShellV2Root' -Remove -NoRestart -ErrorAction SilentlyContinue" >nul 2>&1
-powershell -NoProfile -Command "Disable-WindowsOptionalFeature -Online -FeatureName 'Microsoft-RemoteDesktopConnection' -Remove -NoRestart -ErrorAction SilentlyContinue" >nul 2>&1
-powershell -NoProfile -Command "Disable-WindowsOptionalFeature -Online -FeatureName 'Recall' -Remove -NoRestart -ErrorAction SilentlyContinue" >nul 2>&1
+powershell -NoProfile -Command "try { Disable-WindowsOptionalFeature -Online -FeatureName 'MediaPlayback' -Remove -NoRestart -ErrorAction SilentlyContinue } catch { }" >nul 2>&1
+powershell -NoProfile -Command "try { Disable-WindowsOptionalFeature -Online -FeatureName 'MicrosoftWindowsPowerShellV2Root' -Remove -NoRestart -ErrorAction SilentlyContinue } catch { }" >nul 2>&1
+powershell -NoProfile -Command "try { Disable-WindowsOptionalFeature -Online -FeatureName 'Microsoft-RemoteDesktopConnection' -Remove -NoRestart -ErrorAction SilentlyContinue } catch { }" >nul 2>&1
+powershell -NoProfile -Command "try { Disable-WindowsOptionalFeature -Online -FeatureName 'Recall' -Remove -NoRestart -ErrorAction SilentlyContinue } catch { }" >nul 2>&1
 
 echo Done.
 echo.
@@ -82,7 +82,7 @@ echo.
 :: ONEDRIVE REMOVAL
 :: ============================================
 
-echo [5/8] Removing OneDrive...
+echo [5/9] Removing OneDrive...
 
 :: Remove scheduled tasks
 schtasks /Query | findstr /C:"DevHomeUpdate" >nul 2>&1 && schtasks /Delete /TN "DevHomeUpdate" /F >nul 2>&1
@@ -100,7 +100,7 @@ echo.
 :: CURRENT USER CONFIGURATION
 :: ============================================
 
-echo [6/8] Configuring current user settings...
+echo [6/9] Configuring current user settings...
 
 :: Disable Copilot
 reg add "HKCU\Software\Policies\Microsoft\Windows\WindowsCopilot" /v TurnOffWindowsCopilot /t REG_DWORD /d 1 /f >nul 2>&1
@@ -186,7 +186,7 @@ echo.
 :: DEFAULT USER CONFIGURATION
 :: ============================================
 
-echo [7/8] Configuring default user profile...
+echo [7/9] Configuring default user profile...
 
 :: Load default user registry hive
 reg load "HKU\DefaultUser" "C:\Users\Default\NTUSER.DAT" >nul 2>&1
@@ -239,7 +239,7 @@ echo.
 :: INSTALL APPLICATIONS
 :: ============================================
 
-echo [8/8] Installing applications with winget...
+echo [8/9] Installing applications with winget...
 
 :: Check if winget is available
 where winget >nul 2>&1
