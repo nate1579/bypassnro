@@ -151,11 +151,11 @@ reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcon
 reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\ClassicStartMenu" /v "{e88865ea-0e1c-4e20-9aa6-edcd0212c87c}" /t REG_DWORD /d 1 /f >nul 2>&1
 reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\ClassicStartMenu" /v "{f874310e-b6b7-47dc-bc84-b9e6b38f5903}" /t REG_DWORD /d 0 /f >nul 2>&1
 reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\ClassicStartMenu" /v "{1cf1260c-4dd0-4ebb-811f-33c572699fde}" /t REG_DWORD /d 0 /f >nul 2>&1
-reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\ClassicStartMenu" /v "{f02c1a0d-be21-4350-88b0-7367fc96ef3c}" /t REG_DWORD /d 0 /f >nul 2>&1
+reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\ClassicStartMenu" /v "{f02c1a0d-be21-4350-88b0-7367fc96ef3c}" /t REG_DWORD /d 1 /f >nul 2>&1
 reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\ClassicStartMenu" /v "{3add1653-eb32-4cb0-bbd7-dfa0abb5acca}" /t REG_DWORD /d 0 /f >nul 2>&1
 reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\ClassicStartMenu" /v "{645ff040-5081-101b-9f08-00aa002f954e}" /t REG_DWORD /d 0 /f >nul 2>&1
 reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\ClassicStartMenu" /v "{20d04fe0-3aea-1069-a2d8-08002b30309d}" /t REG_DWORD /d 0 /f >nul 2>&1
-reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\ClassicStartMenu" /v "{59031a47-3f72-44a7-89c5-5595fe6b30ee}" /t REG_DWORD /d 0 /f >nul 2>&1
+reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\ClassicStartMenu" /v "{59031a47-3f72-44a7-89c5-5595fe6b30ee}" /t REG_DWORD /d 1 /f >nul 2>&1
 reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\ClassicStartMenu" /v "{a0953c92-50dc-43bf-be83-3742fed03c9c}" /t REG_DWORD /d 0 /f >nul 2>&1
 
 :: Configure desktop icons - NewStartPanel
@@ -166,12 +166,23 @@ reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcon
 reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel" /v "{e88865ea-0e1c-4e20-9aa6-edcd0212c87c}" /t REG_DWORD /d 1 /f >nul 2>&1
 reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel" /v "{f874310e-b6b7-47dc-bc84-b9e6b38f5903}" /t REG_DWORD /d 0 /f >nul 2>&1
 reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel" /v "{1cf1260c-4dd0-4ebb-811f-33c572699fde}" /t REG_DWORD /d 0 /f >nul 2>&1
-reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel" /v "{f02c1a0d-be21-4350-88b0-7367fc96ef3c}" /t REG_DWORD /d 0 /f >nul 2>&1
+reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel" /v "{f02c1a0d-be21-4350-88b0-7367fc96ef3c}" /t REG_DWORD /d 1 /f >nul 2>&1
 reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel" /v "{3add1653-eb32-4cb0-bbd7-dfa0abb5acca}" /t REG_DWORD /d 0 /f >nul 2>&1
 reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel" /v "{645ff040-5081-101b-9f08-00aa002f954e}" /t REG_DWORD /d 0 /f >nul 2>&1
 reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel" /v "{20d04fe0-3aea-1069-a2d8-08002b30309d}" /t REG_DWORD /d 0 /f >nul 2>&1
-reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel" /v "{59031a47-3f72-44a7-89c5-5595fe6b30ee}" /t REG_DWORD /d 0 /f >nul 2>&1
+reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel" /v "{59031a47-3f72-44a7-89c5-5595fe6b30ee}" /t REG_DWORD /d 1 /f >nul 2>&1
 reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel" /v "{a0953c92-50dc-43bf-be83-3742fed03c9c}" /t REG_DWORD /d 0 /f >nul 2>&1
+
+:: Remove Microsoft Edge desktop shortcuts
+del /F /Q "%USERPROFILE%\Desktop\Microsoft Edge.lnk" >nul 2>&1
+del /F /Q "%PUBLIC%\Desktop\Microsoft Edge.lnk" >nul 2>&1
+del /F /Q "C:\Users\Default\Desktop\Microsoft Edge.lnk" >nul 2>&1
+
+:: Disable Windows notifications
+reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\PushNotifications" /v ToastEnabled /t REG_DWORD /d 0 /f >nul 2>&1
+reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Notifications\Settings" /v NOC_GLOBAL_SETTING_ALLOW_NOTIFICATION_SOUND /t REG_DWORD /d 0 /f >nul 2>&1
+reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Notifications\Settings" /v NOC_GLOBAL_SETTING_ALLOW_CRITICAL_TOASTS_ABOVE_LOCK /t REG_DWORD /d 0 /f >nul 2>&1
+reg add "HKCU\Software\Policies\Microsoft\Windows\Explorer" /v DisableNotificationCenter /t REG_DWORD /d 1 /f >nul 2>&1
 
 :: Configure Start menu folders
 powershell -NoProfile -Command "Set-ItemProperty -Path 'Registry::HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Start' -Name 'VisiblePlaces' -Value ([convert]::FromBase64String('ztU0LVr6Q0WC8iLm6vd3PC+zZ+PeiVVDv85h83sYqTe8JIoUDNaJQqCAbtm7okiCIAYLsFF/MkyqHjTMVH9zFUSBdf4NCK5Ci9o07Ze2Y5RKsL10SvloT4vWQ5gHHai8oAc/OArogEywWobbhF28TYYIc1KqUUNCn3sndlhGWdTFpbNChn30QoCkk/rKeoi1')) -Type 'Binary' -ErrorAction SilentlyContinue" >nul 2>&1
@@ -271,17 +282,26 @@ echo.
 :: PIN APPS TO TASKBAR
 :: ============================================
 
-echo [9/9] Pinning apps to taskbar...
+echo [9/9] Configuring taskbar pins...
+
+:: Clear all existing taskbar pins
+powershell -NoProfile -Command "try { $pinPath = \"$env:APPDATA\Microsoft\Internet Explorer\Quick Launch\User Pinned\TaskBar\"; if (Test-Path $pinPath) { Get-ChildItem -Path $pinPath -Filter *.lnk | Remove-Item -Force -ErrorAction SilentlyContinue } } catch { }" >nul 2>&1
+
+:: For Windows 11, also clear via registry
+powershell -NoProfile -Command "try { Remove-Item -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Taskband' -Recurse -Force -ErrorAction SilentlyContinue; New-Item -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Taskband' -Force -ErrorAction SilentlyContinue } catch { }" >nul 2>&1
+
+:: Wait a moment for clearing to complete
+timeout /t 2 /nobreak >nul
 
 :: Pin File Explorer to taskbar
-powershell -NoProfile -Command "$shell = New-Object -ComObject shell.application; $shell.NameSpace('shell:::{4234d49b-0245-4df3-b780-3893943456e1}').Self.InvokeVerb('taskbarpin')" 2>nul
+powershell -NoProfile -Command "try { $shell = New-Object -ComObject shell.application; $shell.NameSpace('shell:::{4234d49b-0245-4df3-b780-3893943456e1}').Self.InvokeVerb('taskbarpin') } catch { }" 2>nul
 
 :: Wait for Chrome installation to complete and pin it
 timeout /t 3 /nobreak >nul
-powershell -NoProfile -Command "$chromePath = 'C:\Program Files\Google\Chrome\Application\chrome.exe'; if (Test-Path $chromePath) { $shell = New-Object -ComObject shell.application; $folder = $shell.Namespace((Split-Path $chromePath)); $item = $folder.ParseName((Split-Path $chromePath -Leaf)); $item.InvokeVerb('taskbarpin') }" 2>nul
+powershell -NoProfile -Command "try { $chromePath = 'C:\Program Files\Google\Chrome\Application\chrome.exe'; if (Test-Path $chromePath) { $shell = New-Object -ComObject shell.application; $folder = $shell.Namespace((Split-Path $chromePath)); $item = $folder.ParseName((Split-Path $chromePath -Leaf)); $item.InvokeVerb('taskbarpin') } } catch { }" 2>nul
 
 :: Alternative method for Windows 11 - Create pinned items via registry
-powershell -NoProfile -Command "if ([System.Environment]::OSVersion.Version.Build -ge 22000) { $regPath = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Taskband'; if (-not (Test-Path $regPath)) { New-Item -Path $regPath -Force | Out-Null }; $pins = @('C:\Windows\explorer.exe', 'C:\Program Files\Google\Chrome\Application\chrome.exe'); foreach ($pin in $pins) { if (Test-Path $pin) { $shortcut = [System.IO.Path]::Combine($env:APPDATA, 'Microsoft\Internet Explorer\Quick Launch\User Pinned\TaskBar', [System.IO.Path]::GetFileNameWithoutExtension($pin) + '.lnk'); $WshShell = New-Object -ComObject WScript.Shell; $Shortcut = $WshShell.CreateShortcut($shortcut); $Shortcut.TargetPath = $pin; $Shortcut.Save() } } }" 2>nul
+powershell -NoProfile -Command "try { if ([System.Environment]::OSVersion.Version.Build -ge 22000) { $pinPath = \"$env:APPDATA\Microsoft\Internet Explorer\Quick Launch\User Pinned\TaskBar\"; if (-not (Test-Path $pinPath)) { New-Item -Path $pinPath -ItemType Directory -Force | Out-Null }; $pins = @(@{Name='File Explorer';Target='C:\Windows\explorer.exe'}, @{Name='Google Chrome';Target='C:\Program Files\Google\Chrome\Application\chrome.exe'}); foreach ($pin in $pins) { if (Test-Path $pin.Target) { $shortcut = Join-Path $pinPath \"$($pin.Name).lnk\"; $WshShell = New-Object -ComObject WScript.Shell; $Shortcut = $WshShell.CreateShortcut($shortcut); $Shortcut.TargetPath = $pin.Target; $Shortcut.Save() } } } } catch { }" 2>nul
 
 echo Done.
 echo.
@@ -300,10 +320,11 @@ echo - Configured taskbar (left-aligned, search hidden, end task enabled)
 echo - Configured File Explorer (show extensions, launch to This PC)
 echo - Enabled NumLock by default
 echo - Disabled Sticky Keys
-echo - Configured desktop icons
+echo - Configured desktop icons (removed User, Network, Edge shortcuts)
+echo - Disabled Windows notifications
 echo - Disabled Bing search results
 echo - Installed Chrome, Firefox, VLC, and Adobe Reader
-echo - Pinned Chrome and File Explorer to taskbar
+echo - Cleared all taskbar pins and pinned Chrome and File Explorer only
 echo.
 echo A system restart is recommended to apply all changes.
 echo.
